@@ -1,0 +1,20 @@
+Descrição do Trabalho – Desenvolvimento de Sistema com Integração a Banco de Dados
+
+O trabalho consiste no desenvolvimento de um sistema em Java com integração a um banco de dados, contemplando no mínimo cinco tabelas distintas. O sistema deve seguir as boas práticas de programação orientada a objetos (POO) e estar devidamente estruturado em pacotes que contenham:
+  
+   Uma classe de conexão com o banco de dados;
+   Classes responsáveis pelos comandos SQL (inserção, exclusão, atualização e consulta);
+   Classes de regra de negócio, responsáveis pela lógica da aplicação;
+   Classes que representem as entidades do banco de dados;
+   Classes de menu e entrada de dados, para interação com o usuário.
+  
+  O sistema deverá permitir a execução completa das operações de CRUD (Create, Read, Update e Delete) em todas as entidades modeladas. Cada aluno deverá escolher um tema diferente, assegurando a originalidade dos trabalhos e a diversidade das propostas.
+
+  Este projeto será desenvolvido de forma integrada à disciplina de Banco de Dados, possibilitando a aplicação prática dos conceitos teóricos estudados ao longo do curso.
+
+Observação:
+Os alunos que estiverem cursando apenas POO I poderão desenvolver o sistema com
+um banco de dados contendo quatro tabelas.
+Entrega e Apresentação:
+O trabalho deverá ser entregue e apresentado no período de 08 a 11 de dezembro.
+O trabalho é individual.

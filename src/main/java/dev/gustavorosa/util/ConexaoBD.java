@@ -4,9 +4,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class ConexaoBD {
-    private Connection conn;
+    private static Connection conn;
 
-    public Connection connect() {
+    public static Connection connect() {
         try {
           Class.forName("com.mysql.cj.jdbc.Driver");
           String url = "jdbc:mysql://localhost:3306/cobranca";
