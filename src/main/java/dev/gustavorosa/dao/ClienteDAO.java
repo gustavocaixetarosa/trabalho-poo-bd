@@ -66,7 +66,6 @@ public class ClienteDAO {
       ResultSet rs = statement.executeQuery();
 
       if (rs.next()) {
-        clienteBuscado = new Cliente();
         clienteBuscado.setId(rs.getLong("id"));
         clienteBuscado.setNome(rs.getString("nome"));
         clienteBuscado.setEndereco(rs.getString("endereco"));

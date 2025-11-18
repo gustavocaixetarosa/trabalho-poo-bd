@@ -1,7 +1,9 @@
 package dev.gustavorosa.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import dev.gustavorosa.models.Contrato;
@@ -26,5 +28,30 @@ public class ContratoDAO {
     } catch (SQLException ex) {
       throw new RuntimeException("Falha ao salvar contrato: " + ex.getMessage());
     }
+  }
+
+  public Contrato buscarPorId(Long id) {
+    String sql = "SELECT * FROM contrato WHERE id = ?;";
+    Contrato contratoEncontrado = new Contrato();
+
+    try (
+        Connection conn = ConexaoBD.connect();
+        PreparedStatement ps = conn.prepareStatement(sql);) {
+      ps.setLong(1, id);
+
+      ResultSet rs = ps.executeQuery();
+
+      if (rs.next()) {
+        Date dateSql = rs.getDate("dataInicio");
+        contratoEncontrado.setDataInicio(dateSql.toLocalDate());
+        contratoEncontrado.setDuracaoEmMeses(rs.getInt("duracaoEmMeses"));
+        contratoEncontrado.setId(rs.getLong("id"));
+        contratoEncontrado.setIdCliente(rs.getLong("idCliente"));
+        contratoEncontrado.setRegistro(rs.getString(arg0));
+      }
+    } catch (SQLException ex) {
+      throw new RuntimeException("Falha ao recuperar contrato por id: " + ex.getMessage());
+    }
+
   }
 }

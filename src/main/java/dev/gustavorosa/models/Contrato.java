@@ -3,77 +3,80 @@ package dev.gustavorosa.models;
 import java.time.LocalDate;
 
 public class Contrato {
-    private Long id;
-    private Long idCliente;
-    private String nome;
-    private String registro;
-    private LocalDate dataInicio;
-    private int duracaoEmMeses;
-    private Double valorContrato;
+  private Long id;
+  private Long idCliente;
+  private String nome;
+  private String registro;
+  private LocalDate dataInicio;
+  private int duracaoEmMeses;
+  private Double valorContrato;
 
-    public Contrato(Long idCliente, String nome, String registro, LocalDate dataInicio,
-                    int duracao, Double valorContrato) {
-        this.idCliente = idCliente;
-        this.nome = nome;
-        this.registro = registro;
-        this.dataInicio = dataInicio;
-        this.duracaoEmMeses = duracao;
-        this.valorContrato = valorContrato;
-    }
+  public Contrato() {
+  }
 
-    public Long getId() {
-        return id;
-    }
+  public Contrato(Long idCliente, String nome, String registro, LocalDate dataInicio,
+      int duracao, Double valorContrato) {
+    this.idCliente = idCliente;
+    this.nome = nome;
+    this.registro = registro;
+    this.dataInicio = dataInicio;
+    this.duracaoEmMeses = duracao;
+    this.valorContrato = valorContrato;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public Long getIdCliente() {
-        return idCliente;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public void setIdCliente(Long idCliente) {
-        this.idCliente = idCliente;
-    }
+  public Long getIdCliente() {
+    return idCliente;
+  }
 
-    public String getNome() {
-        return nome;
-    }
+  public void setIdCliente(Long idCliente) {
+    this.idCliente = idCliente;
+  }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+  public String getNome() {
+    return nome;
+  }
 
-    public String getRegistro() {
-        return registro;
-    }
+  public void setNome(String nome) {
+    this.nome = nome;
+  }
 
-    public void setRegistro(String registro) {
-        this.registro = registro;
-    }
+  public String getRegistro() {
+    return registro;
+  }
 
-    public LocalDate getDataInicio() {
-        return dataInicio;
-    }
+  public void setRegistro(String registro) {
+    this.registro = registro;
+  }
 
-    public void setDataInicio(LocalDate dataInicio) {
-        this.dataInicio = dataInicio;
-    }
+  public LocalDate getDataInicio() {
+    return dataInicio;
+  }
 
-    public int getDuracaoEmMeses() {
-        return duracaoEmMeses;
-    }
+  public void setDataInicio(LocalDate dataInicio) {
+    this.dataInicio = dataInicio;
+  }
 
-    public void setDuracaoEmMeses(int duracaoEmMeses) {
-        this.duracaoEmMeses = duracaoEmMeses;
-    }
+  public int getDuracaoEmMeses() {
+    return duracaoEmMeses;
+  }
 
-    public Double getValorContrato() {
-        return valorContrato;
-    }
+  public void setDuracaoEmMeses(int duracaoEmMeses) {
+    this.duracaoEmMeses = duracaoEmMeses;
+  }
 
-    public void setValorContrato(Double valorContrato) {
-        this.valorContrato = valorContrato;
-    }
+  public Double getValorContrato() {
+    return valorContrato;
+  }
+
+  public void setValorContrato(Double valorContrato) {
+    this.valorContrato = valorContrato;
+  }
 }
