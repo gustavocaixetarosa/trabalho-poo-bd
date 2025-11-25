@@ -47,11 +47,13 @@ public class ContratoDAO {
         contratoEncontrado.setDuracaoEmMeses(rs.getInt("duracaoEmMeses"));
         contratoEncontrado.setId(rs.getLong("id"));
         contratoEncontrado.setIdCliente(rs.getLong("idCliente"));
-        contratoEncontrado.setRegistro(rs.getString(arg0));
+        contratoEncontrado.setRegistro(rs.getString("registro"));
+
+        return contratoEncontrado;
       }
     } catch (SQLException ex) {
       throw new RuntimeException("Falha ao recuperar contrato por id: " + ex.getMessage());
     }
-
+    return null;
   }
 }
