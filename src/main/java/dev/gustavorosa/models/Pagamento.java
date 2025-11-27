@@ -11,6 +11,9 @@ public class Pagamento {
     private LocalDate dataPagamento;
     private SituacaoPagamento situacao;
 
+    public Pagamento() {
+    }
+
     public Pagamento(Long idContrato, Double valor, int numParcela, LocalDate dataPagamento,
                      LocalDate dataVencimento, SituacaoPagamento situacao) {
        this.idContrato = idContrato;
