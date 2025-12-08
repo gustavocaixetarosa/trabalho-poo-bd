@@ -63,6 +63,7 @@ public class ClienteController {
 
     private void buscarPorId() {
         System.out.println();
+        mostrarIdsDisponiveis();
         Long id = Menu.lerLong("Digite o ID do cliente: ");
         Cliente cliente = clienteDAO.buscarClientePorId(id);
 
@@ -94,6 +95,7 @@ public class ClienteController {
 
     private void atualizar() {
         System.out.println();
+        mostrarIdsDisponiveis();
         Long id = Menu.lerLong("Digite o ID do cliente a atualizar: ");
         Cliente clienteExistente = clienteDAO.buscarClientePorId(id);
 
@@ -123,9 +125,52 @@ public class ClienteController {
 
     private void excluir() {
         System.out.println();
+        mostrarIdsDisponiveis();
         Long id = Menu.lerLong("Digite o ID do cliente a excluir: ");
+        
+        Cliente cliente = clienteDAO.buscarClientePorId(id);
+        if (cliente == null || cliente.getId() == null) {
+            Menu.mensagemErro("Cliente nao encontrado!");
+            Menu.pressioneEnterParaContinuar();
+            return;
+        }
+
+        int numContratos = clienteDAO.contarContratosPorCliente(id);
+        
+        if (numContratos > 0) {
+            System.out.println();
+            Menu.mensagemInfo("Este cliente possui " + numContratos + " contrato(s) associado(s).");
+            System.out.println("Os contratos e pagamentos serao excluidos automaticamente em cascata.");
+            System.out.println();
+            System.out.println("Deseja continuar?");
+            System.out.println("1. Sim, excluir cliente e todos os dados relacionados");
+            System.out.println("2. Nao, cancelar operacao");
+            int opcao = Menu.lerInt("Escolha uma opcao: ");
+
+            if (opcao != 1) {
+                Menu.mensagemInfo("Operacao cancelada.");
+                Menu.pressioneEnterParaContinuar();
+                return;
+            }
+        }
+        
         clienteDAO.deletar(id);
         Menu.pressioneEnterParaContinuar();
+    }
+
+    private void mostrarIdsDisponiveis() {
+        List<Cliente> clientes = clienteDAO.buscarClientes();
+        if (clientes.isEmpty()) {
+            Menu.mensagemInfo("Nenhum cliente cadastrado.");
+        } else {
+            System.out.println("Clientes disponiveis:");
+            System.out.printf("%-5s | %-30s%n", "ID", "Nome");
+            Menu.imprimeSeparador();
+            for (Cliente c : clientes) {
+                System.out.printf("%-5d | %-30s%n", c.getId(), c.getNome());
+            }
+            System.out.println();
+        }
     }
 
     public Cliente buscarClientePorId(Long id) {

@@ -2,6 +2,7 @@ package dev.gustavorosa.controller;
 
 import dev.gustavorosa.dao.ClienteDAO;
 import dev.gustavorosa.dao.ContratoDAO;
+import dev.gustavorosa.dao.PagamentoDAO;
 import dev.gustavorosa.models.Cliente;
 import dev.gustavorosa.models.Contrato;
 import dev.gustavorosa.util.Formatador;
@@ -14,10 +15,12 @@ import java.util.List;
 public class ContratoController {
     private final ContratoDAO contratoDAO;
     private final ClienteDAO clienteDAO;
+    private final PagamentoDAO pagamentoDAO;
 
     public ContratoController() {
         this.contratoDAO = new ContratoDAO();
         this.clienteDAO = new ClienteDAO();
+        this.pagamentoDAO = new PagamentoDAO();
     }
 
     public void executar() {
@@ -73,6 +76,7 @@ public class ContratoController {
 
     private void buscarPorId() {
         System.out.println();
+        mostrarIdsDisponiveis();
         Long id = Menu.lerLong("Digite o ID do contrato: ");
         Contrato contrato = contratoDAO.buscarPorId(id);
 
@@ -96,6 +100,7 @@ public class ContratoController {
         System.out.println();
         Menu.imprimeTitulo("Adicionar Novo Contrato");
 
+        mostrarIdsClientesDisponiveis();
         Long idCliente = Menu.lerLong("ID do Cliente: ");
 
         Cliente cliente = clienteDAO.buscarClientePorId(idCliente);
@@ -128,6 +133,7 @@ public class ContratoController {
 
     private void atualizar() {
         System.out.println();
+        mostrarIdsDisponiveis();
         Long id = Menu.lerLong("Digite o ID do contrato a atualizar: ");
         Contrato contratoExistente = contratoDAO.buscarPorId(id);
 
@@ -147,6 +153,7 @@ public class ContratoController {
 
         System.out.println("\nDigite os novos dados (deixe vazio/0 para manter o atual):");
 
+        mostrarIdsClientesDisponiveis();
         String idClienteStr = Menu.lerString("Novo ID Cliente (ou 0 para manter): ");
         if (!idClienteStr.isEmpty() && !idClienteStr.equals("0")) {
             contratoExistente.setIdCliente(Long.parseLong(idClienteStr));
@@ -183,9 +190,67 @@ public class ContratoController {
 
     private void excluir() {
         System.out.println();
+        mostrarIdsDisponiveis();
         Long id = Menu.lerLong("Digite o ID do contrato a excluir: ");
+        
+        Contrato contrato = contratoDAO.buscarPorId(id);
+        if (contrato == null) {
+            Menu.mensagemErro("Contrato nao encontrado!");
+            Menu.pressioneEnterParaContinuar();
+            return;
+        }
+
+        int numPagamentos = pagamentoDAO.contarPagamentosPorContrato(id);
+        
+        if (numPagamentos > 0) {
+            System.out.println();
+            Menu.mensagemInfo("Este contrato possui " + numPagamentos + " pagamento(s) associado(s).");
+            System.out.println("Os pagamentos serao excluidos automaticamente em cascata.");
+            System.out.println();
+            System.out.println("Deseja continuar?");
+            System.out.println("1. Sim, excluir contrato e todos os pagamentos");
+            System.out.println("2. Nao, cancelar operacao");
+            int opcao = Menu.lerInt("Escolha uma opcao: ");
+
+            if (opcao != 1) {
+                Menu.mensagemInfo("Operacao cancelada.");
+                Menu.pressioneEnterParaContinuar();
+                return;
+            }
+        }
+        
         contratoDAO.deletar(id);
         Menu.pressioneEnterParaContinuar();
+    }
+
+    private void mostrarIdsDisponiveis() {
+        List<Contrato> contratos = contratoDAO.buscarContratos();
+        if (contratos.isEmpty()) {
+            Menu.mensagemInfo("Nenhum contrato cadastrado.");
+        } else {
+            System.out.println("Contratos disponiveis:");
+            System.out.printf("%-5s | %-25s | %-10s%n", "ID", "Nome", "ID Cliente");
+            Menu.imprimeSeparador();
+            for (Contrato c : contratos) {
+                System.out.printf("%-5d | %-25s | %-10d%n", c.getId(), c.getNome(), c.getIdCliente());
+            }
+            System.out.println();
+        }
+    }
+
+    private void mostrarIdsClientesDisponiveis() {
+        List<Cliente> clientes = clienteDAO.buscarClientes();
+        if (clientes.isEmpty()) {
+            Menu.mensagemInfo("Nenhum cliente cadastrado.");
+        } else {
+            System.out.println("Clientes disponiveis:");
+            System.out.printf("%-5s | %-30s%n", "ID", "Nome");
+            Menu.imprimeSeparador();
+            for (Cliente c : clientes) {
+                System.out.printf("%-5d | %-30s%n", c.getId(), c.getNome());
+            }
+            System.out.println();
+        }
     }
 
     public Contrato buscarPorId(Long id) {

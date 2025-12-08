@@ -104,6 +104,24 @@ public class PagamentoDAO {
     return pagamentos;
   }
 
+  public int contarPagamentosPorContrato(Long idContrato) {
+    String sql = "SELECT COUNT(*) as total FROM pagamento WHERE idContrato = ?;";
+
+    try (
+        Connection conn = ConexaoBD.connect();
+        PreparedStatement ps = conn.prepareStatement(sql)) {
+      ps.setLong(1, idContrato);
+
+      ResultSet rs = ps.executeQuery();
+      if (rs.next()) {
+        return rs.getInt("total");
+      }
+    } catch (SQLException ex) {
+      throw new RuntimeException("Falha ao contar pagamentos do contrato: " + ex.getMessage(), ex);
+    }
+    return 0;
+  }
+
   public List<Pagamento> buscarPorSituacao(SituacaoPagamento situacao) {
     List<Pagamento> pagamentos = new ArrayList<>();
     String sql = "SELECT * FROM pagamento WHERE situacao = ?;";

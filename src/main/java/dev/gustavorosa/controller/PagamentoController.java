@@ -105,6 +105,7 @@ public class PagamentoController {
 
     private void buscarPorId() {
         System.out.println();
+        mostrarIdsDisponiveis();
         Long id = Menu.lerLong("Digite o ID do pagamento: ");
         Pagamento pagamento = pagamentoDAO.buscarPorId(id);
 
@@ -136,6 +137,7 @@ public class PagamentoController {
 
     private void buscarPorContrato() {
         System.out.println();
+        mostrarIdsContratosDisponiveis();
         Long idContrato = Menu.lerLong("Digite o ID do contrato: ");
         List<Pagamento> pagamentos = pagamentoDAO.buscarPorContrato(idContrato);
 
@@ -191,6 +193,7 @@ public class PagamentoController {
         System.out.println();
         Menu.imprimeTitulo("Adicionar Novo Pagamento");
 
+        mostrarIdsContratosDisponiveis();
         Long idContrato = Menu.lerLong("ID do Contrato: ");
 
         Contrato contrato = contratoDAO.buscarPorId(idContrato);
@@ -221,6 +224,7 @@ public class PagamentoController {
 
     private void registrarPagamento() {
         System.out.println();
+        mostrarIdsDisponiveis();
         Long id = Menu.lerLong("Digite o ID do pagamento a registrar: ");
         pagamentoDAO.registrarPagamento(id);
         Menu.pressioneEnterParaContinuar();
@@ -228,6 +232,7 @@ public class PagamentoController {
 
     private void atualizar() {
         System.out.println();
+        mostrarIdsDisponiveis();
         Long id = Menu.lerLong("Digite o ID do pagamento a atualizar: ");
         Pagamento pagamentoExistente = pagamentoDAO.buscarPorId(id);
 
@@ -271,9 +276,41 @@ public class PagamentoController {
 
     private void excluir() {
         System.out.println();
+        mostrarIdsDisponiveis();
         Long id = Menu.lerLong("Digite o ID do pagamento a excluir: ");
         pagamentoDAO.deletar(id);
         Menu.pressioneEnterParaContinuar();
+    }
+
+    private void mostrarIdsDisponiveis() {
+        List<Pagamento> pagamentos = pagamentoDAO.buscarPagamentos();
+        if (pagamentos.isEmpty()) {
+            Menu.mensagemInfo("Nenhum pagamento cadastrado.");
+        } else {
+            System.out.println("Pagamentos disponiveis:");
+            System.out.printf("%-5s | %-10s | %-8s | %-12s | %-12s%n", "ID", "Contrato", "Parcela", "Valor", "Situacao");
+            Menu.imprimeSeparador();
+            for (Pagamento p : pagamentos) {
+                System.out.printf("%-5d | %-10d | %-8d | R$%-10.2f | %-12s%n",
+                        p.getId(), p.getIdContrato(), p.getNumParcela(), p.getValor(), p.getSituacao());
+            }
+            System.out.println();
+        }
+    }
+
+    private void mostrarIdsContratosDisponiveis() {
+        List<Contrato> contratos = contratoDAO.buscarContratos();
+        if (contratos.isEmpty()) {
+            Menu.mensagemInfo("Nenhum contrato cadastrado.");
+        } else {
+            System.out.println("Contratos disponiveis:");
+            System.out.printf("%-5s | %-25s | %-10s%n", "ID", "Nome", "ID Cliente");
+            Menu.imprimeSeparador();
+            for (Contrato c : contratos) {
+                System.out.printf("%-5d | %-25s | %-10d%n", c.getId(), c.getNome(), c.getIdCliente());
+            }
+            System.out.println();
+        }
     }
 }
 

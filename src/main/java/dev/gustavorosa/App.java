@@ -4,8 +4,10 @@ import dev.gustavorosa.controller.ClienteController;
 import dev.gustavorosa.controller.ContratoController;
 import dev.gustavorosa.controller.PagamentoController;
 import dev.gustavorosa.controller.RelatorioController;
+import dev.gustavorosa.util.ConexaoBD;
 import dev.gustavorosa.util.Menu;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class App {
@@ -16,6 +18,17 @@ public class App {
     private static final RelatorioController relatorioController = new RelatorioController();
 
     public static void main(String[] args) {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            ConexaoBD.fechar();
+        }));
+
+        try {
+            ConexaoBD.inicializar();
+        } catch (SQLException e) {
+            Menu.mensagemErro("Nao foi possivel conectar ao banco de dados. Encerrando aplicacao.");
+            System.exit(1);
+        }
+
         Menu.mensagemInicial();
 
         boolean continuar = true;
@@ -45,8 +58,10 @@ public class App {
                 }
             } catch (Exception e) {
                 Menu.mensagemErro("Ocorreu um erro: " + e.getMessage());
-                scan.nextLine(); // Limpa o buffer em caso de erro
+                scan.nextLine();
             }
         }
+
+        ConexaoBD.fechar();
     }
 }

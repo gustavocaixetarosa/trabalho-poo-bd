@@ -53,6 +53,11 @@ public class Menu {
         System.out.println("2. Listar pagamentos em aberto");
         System.out.println("3. Listar pagamentos pagos");
         System.out.println("4. Listar pagamentos atrasados");
+        System.out.println("5. Gerar/Visualizar relatorio mensal de cliente");
+        System.out.println("6. Listar todos os relatorios mensais");
+        System.out.println("7. Calcular/Visualizar meus ganhos mensais");
+        System.out.println("8. Listar todos os ganhos mensais");
+        System.out.println("9. Resumo consolidado de clientes (VIEW)");
         System.out.println("0. Voltar");
         System.out.print("Escolha uma opcao: ");
         return scan.nextInt();
@@ -77,7 +82,7 @@ public class Menu {
 
     public static String lerString(String mensagem) {
         System.out.print(mensagem);
-        scan.nextLine(); // Limpa buffer
+        scan.nextLine();
         return scan.nextLine();
     }
 

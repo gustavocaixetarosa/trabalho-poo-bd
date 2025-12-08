@@ -36,7 +36,6 @@ public class ContratoDAO {
 
       ps.executeUpdate();
 
-      // Recupera o ID gerado do contrato
       ResultSet generatedKeys = ps.getGeneratedKeys();
       Long idContrato = null;
       if (generatedKeys.next()) {
@@ -46,7 +45,6 @@ public class ContratoDAO {
 
       System.out.println("Contrato " + contrato.getNome() + " salvo com sucesso!");
 
-      // Gera os pagamentos do contrato
       if (idContrato != null) {
         gerarPagamentosDoContrato(contrato);
       }
@@ -70,7 +68,7 @@ public class ContratoDAO {
           contrato.getId(),
           valorParcela,
           i,
-          null, // dataPagamento - ainda não pago
+          null,
           dataVencimento,
           SituacaoPagamento.ABERTO
       );

@@ -100,6 +100,24 @@ public class ClienteDAO {
     }
   }
 
+  public int contarContratosPorCliente(Long idCliente) {
+    String sql = "SELECT COUNT(*) as total FROM contrato WHERE idCliente = ?;";
+
+    try (
+        Connection connection = ConexaoBD.connect();
+        PreparedStatement statement = connection.prepareStatement(sql)) {
+      statement.setLong(1, idCliente);
+
+      ResultSet rs = statement.executeQuery();
+      if (rs.next()) {
+        return rs.getInt("total");
+      }
+    } catch (SQLException ex) {
+      throw new RuntimeException("Falha ao contar contratos do cliente: " + ex.getMessage(), ex);
+    }
+    return 0;
+  }
+
   public void deletar(Long id) {
     String sql = "DELETE FROM cliente WHERE id = ?;";
 
