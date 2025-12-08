@@ -66,7 +66,7 @@ SELECT
     c.nome AS cliente_nome,
     c.registro AS cliente_registro,
     COUNT(DISTINCT ct.id) AS total_contratos,
-    COALESCE(SUM(ct.valorContrato), 0) AS valor_total_contratos,
+    COALESCE((SELECT SUM(valorContrato) FROM contrato WHERE idCliente = c.id), 0) AS valor_total_contratos,
     COUNT(DISTINCT p.id) AS total_pagamentos,
     COUNT(DISTINCT CASE WHEN p.situacao = 'PAGO' THEN p.id END) AS pagamentos_pagos,
     COUNT(DISTINCT CASE WHEN p.situacao = 'PENDENTE' THEN p.id END) AS pagamentos_pendentes,
